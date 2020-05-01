@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment_Analysis</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+</head>
+<body>
+    <header style="margin-left: 80px; margin-right: 80px;">
+        <div class="container2">
+            <img src="https://github.com/Blueblazers/general/blob/master/twitter.jpg?raw=true" alt="Twitter Cover Image" class="aboutusimage" width="100%" style="opacity: 0.8;">
+            <div class="centered" style="position: absolute; top: 50%; left: 50%; font-size: 45px; color:black; font-family: var(--righteous); transform: translate(-50%, -50%);">
+                <b><u>Twitter Sentiment Analysis</u></b>
+            </div>
+        </div>
+    </header>
+    <main>
+        <br><br>
+        <div class="container">
+            <form method="POST" action=""> {% csrf_token %}
+                <center>
+                    <label for="fname"><h4>Enter Name:</h4></label>
+                    <input type="text" id="fname" name="firstname" placeholder="Name*.."style="width: 40%; padding: 8px 10px; display: inline-block; margin-bottom: 20px; border: 1px solid #570000; border-radius: 20px; box-sizing: border-box;"><br>
+                </center>
+                <div class="button-contact">
+                    <div class="button_cont" align="center" >
+                        <input class="example_b" type="submit" value="Submit" style="font-size: 15px; font-weight: 900; color: white; background-color: red; width: 80px; height: 40px; border: 2px solid black; border-radius: 30px;" >
+                    </div>
+                </div>
+            </form>
+        </div>
+        <center style="color:red;">
+        {% block start %}
+            <h3>{{greet}}</h3>
+        {% endblock %}
+        </center>
+        <br><br><br>
+        <div class="chart-container" style="position: relative; height:20vh; width:60vw; margin: 0 auto;">
+            <canvas id="myChart"></canvas>
+        </div>
+
+        <script>
+            var nam = document.getElementById('fname');
+            document.getElementById("fname").innerHTML = "Bar Chart representing peoples reaction on ";
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                labels: ['Positive', 'Negetive', 'Neutral'],
+                datasets: [{
+                    label: 'Positive ',
+                    data: {% block script %}
+
+                            {{text}}
+
+                            {% endblock script %},
+                    backgroundColor: [
+                    'rgba(183,255,183,0.4)',
+                    'rgba(255,140,140,0.4)',
+                    'rgba(164,253,255,0.4)',
+                ],
+                borderColor: [
+                    'rgba(9,255,0, 1)',
+                    'rgba(255,0,0, 1)',
+                    'rgba(0,255,255, 1)',
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+    </script>
+    </main>
+</body>
+</html>
